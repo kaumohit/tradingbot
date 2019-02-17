@@ -1,23 +1,23 @@
 {
-  "name": "tradingbotbackend",
-  "version": "1.0.0",
-  "description": "Crypto Trading bot backend for various trading bot on various exchanges with user management",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/kaumohit/tradingbotbackend.git"
-  },
-  "author": "Mohit Kaushal",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/kaumohit/tradingbotbackend/issues"
-  },
-  "homepage": "https://github.com/kaumohit/tradingbotbackend#readme",
-  "dependencies": {
-    "mongoose": "^5.4.13"
-  }
+    "name": "tradingbotbackend",
+    "version": "1.0.0",
+    "description": "Crypto Trading bot backend for various trading bot on various exchanges with user management",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "tsc": "tsc"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/kaumohit/tradingbot.git"
+    },
+    "author": "Mohit Kaushal",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/kaumohit/tradingbot/issues"
+    },
+    "homepage": "https://github.com/kaumohit/tradingbot#readme",
+    "dependencies": {
+        "mongoose": "^5.4.13"
+    }
 }
