@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>BOT TRADING PORTAL</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+</head>
+<style>
+  h1, h2, h3, h4, h5, h6{
+  margin-top:10px;
+  margin-bottom:10px;
+}
+  body {
+    font-family: Arial;
+    color: white;
+  }
+
+  .split {
+    height: 100%;
+    width: 50%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+
+  .left {
+    padding: 0.5in;
+    left: 0;
+    width: 70%;
+    background-color: rgb(0, 0, 0)
+  }
+
+  .right {
+    padding: 0.1in;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.658);
+    width: 30%;
+    overflow: auto;
+  }
+
+
+  .centered img {
+    width: 150px;
+    border-radius: 50%;
+  }
+</style>
+
+<body onload="init()">
+
+  <div class="split left">
+    <h2>COSS BOT TRADING PORTAL</h2><br>
+
+    <h4>Select the exchange:</h4>
+    <select id="exchange" onchange="showHide()">
+      <option value="null">Select Your Exchange</option>
+      <option value="COSS">COSS</option>
+      <option value="Binance">Binance</option>
+    </select><br>
+
+    <h4>Select the Bot type:</h4>
+    <select id="bot" onchange="showHide()">
+      <option value="null">Select Bot</option>
+      <option value="Volume">Volume Bot</option>
+      <option value="SD">SD Bot</option>
+    </select>
+
+    
+    <div id="credentials">
+      <br>
+      <h4>Universal Credentials</h4>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">API Key 1</span></div><input
+          class="form-control" id="key1" type="text" value="" placeholder="API KEY 1" name="key1" aria-label="Key 1"
+          aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Secret 1</span></div><input
+          class="form-control" id="secret1" type="text" value="" placeholder="Secret 1" name="secret1" aria-label="Secret 1" aria-describedby="basic-addon1">
+      </div>
+      <div id='key2div'>
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">API Key 2</span></div><input
+            class="form-control" id="key2" type="text" value="" placeholder="API KEY 2" name="key2" aria-label="Key 2"
+            aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <div id='secret2div'>
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Secret 2</span></div><input
+            class="form-control" id="secret2" type="text" value="" placeholder="Secret 2" name="secret2" aria-label="Secret 2" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <h6>Select the Pair type:</h6>
+    <select id="pair" onchange="showHide()">
+      <option value="null">Select Pair</option>
+      <option value="COSS/ETH">COSS/ETH</option>
+      <option value="COSS/BTC">COSS/BTC</option>
+      <option value="NEO/BTC">NEO/BTC</option>
+    </select>
+      <!-- <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Trade Pair</span></div><input
+          class="form-control" id="pair" type="text" value="GOT/ETH" placeholder="Trading Pair (eg. GOT/ETH)" name="pair"
+          aria-label="Trade Pair" aria-describedby="basic-addon1">
+      </div> -->
+    </div>
+
+    <div id="volBotHeaderDiv">
+      <h4>Volume Bot Credentials</h4><br>
+      <h5>Select your Input method</h5>
+      <!-- <select id="method" onchange="showHide()">
+        <option value="null">Select your method</option>
+        <option value="Limit">Volume Limit Range</option>
+      </select><br><br> -->
+    </div>
+    <div id='volumebotdiv'>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Trade Count</span></div><input
+          class="form-control" id="tradeCount" type="text" value="2" placeholder="Trade Count" name="tradeCount"
+          aria-label="Trade Count" aria-describedby="basic-addon1">
+      </div>
+      <div id="volLimitDiv">
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Volume Upper
+              Limit</span></div>
+          <input class="form-control" id="volUpperLimit" type="text" value="" placeholder="Volume Upper Limit..." name="VolumeUL"
+            aria-label="Volume Upper Limit" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Volume Lower
+              Limit</span></div>
+          <input class="form-control" id="volLowerLimit" type="text" value="" placeholder="Volume Lower Limit...  "
+            name="VolumeLL" aria-label="Volume Lower Limit" aria-describedby="basic-addon1">
+        </div>
+      </div>
+      <!-- <div id="volRangeDiv">
+          <div class="input-group input-group-sm mb-3">
+              <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Average Factor
+                </span></div><input class="form-control" id="tradeAvgFactor" type="text" value="0" placeholder="Trade Average Factor"
+                name="tradeAvgFactor" aria-label="Avg Factor" aria-describedby="basic-addon1">
+            </div><br>
+        <div class="input-group input-group-sm mb-3">
+          <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Amount Random Offset (%)</span></div>
+          <input class="form-control" id="amountOffset" type="text" value="" placeholder="Amount Offset..." name="AmountOffset"
+            aria-label="Amount Offset" aria-describedby="basic-addon1">
+        </div>
+      </div> -->
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Trades Not
+            Happened
+            Before (in minutes)</span></div><input class="form-control" id="tradesNotHappenedBefore" type="text" value="0"
+          placeholder="Trades Not Happened Before Time..." name="tradesNotHappenedBefore" aria-label="Trade Size Offset"
+          aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Spread Upper
+            Limit (%)
+          </span></div><input class="form-control" value='60' id="spreadHigh" type="text" placeholder="Spread Upper Limit"
+          name="spreadHigh" aria-label="Spread high" aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Spread Lower
+            Limit (%)
+          </span></div><input class="form-control" value='40' id="spreadLow" type="text" placeholder="Spread Lower Limit"
+          name="spreadLow" aria-label="Spread Low" aria-describedby="basic-addon1">
+      </div>
+    </div>
+
+<!-- SD BOT FIELDS -->
+    <div id='sdbotdiv'>
+      <h4>SD Bot</h4>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Fixed Volume</span></div>
+        <input class="form-control" id="fixedvolumeSD" type="text" value="0" placeholder="Fixed Volume value..." name="bandNumber"
+          aria-label="Band No." aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Hours for 1000
+            Trades</span></div>
+        <input class="form-control" id="hours" type="text" value="0" placeholder="Number of Hours for last 1000 trades..."
+          name="bandOffset" aria-label="Band Offset" aria-describedby="basic-addon1">
+      </div>
+      <!-- <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">Total Number of Last Trades</span></div>
+        <input class="form-control" id="lasttrades" type="text" value="20" placeholder="Number of last trades..." name="tradeSize"
+          aria-label="Trade Size" aria-describedby="basic-addon1">
+      </div> -->
+    </div>
+
+<!-- BOT ON/OFF BUTTONS -->
+    <div id='botdiv'>
+      <button class="btn btn-success" id="volumeOn">Start BOT</button><br><br>
+      <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">BOT ID (to Stop)</span><input
+          class="form-control" id="botStopID" type="text" placeholder="BOT ID to be tuned off..." name="spreadLow"
+          aria-label="Spread Low" aria-describedby="basic-addon1">
+        <button class="btn btn-danger" id="volumeOff">Stop BOT</button></div><br><br><br>
+
+      <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">BOT STATUS CHECK</span>
+        <input class="form-control" id="botStatusID" type="text" placeholder="BOT ID to be checked..." name="spreadLow"
+          aria-label="Spread Low" aria-describedby="basic-addon1">
+        <button class="btn btn-warning" id="checkBotStatusBtn">CHECK STATUS</button></div><br><br><br>
+    </div>
+
+
+    <div class="split right">
+      <div class="centered">
+        <div class="list-type3">
+          <ul id="dynamic-list">
+          </ul>
+        </div>
+        <button class="btn btn-success" style="background: blue; margin-left:auto; margin-right:auto; cursor: pointer; "
+          id="botRefresh">REFRESH</button><br><br>
+      </div>
+
+    </div>
+    <script>
+      const exchangeType = document.getElementById("exchange");
+      const botType = document.getElementById("bot");
+      const keyDiv = document.getElementById("key2div");
+      const secretDiv = document.getElementById("secret2div");
+      const passwordDiv1 = document.getElementById("passwordDiv1");
+      const passwordDiv2 = document.getElementById("passwordDiv2");
+      const volHeaderDiv = document.getElementById("volBotHeaderDiv");
+      const volRangeDiv = document.getElementById("volRangeDiv");
+      const volLimitDiv = document.getElementById("volLimitDiv");
+      
+      const botButtonsDiv = document.getElementById('botdiv');
+      const univCredDiv = document.getElementById("credentials");
+      const volumeBotDiv = document.getElementById("volumebotdiv");
+      const SDBotDiv = document.getElementById("sdbotdiv");
+
+      /**
+       * Executes on Page Load
+      */
+      function init() {
+        $('#exchange').prop('selectedIndex', 0);
+        $('#bot').prop('selectedIndex', 0);
+        volHeaderDiv.style.display = "none";
+        SDBotDiv.style.display = "none";
+        botButtonsDiv.style.display = "none";
+        univCredDiv.style.display = "none";
+        volumeBotDiv.style.display = "none";
+      }
+      function showHide() {
+        const exchangeType = document.getElementById("exchange");
+        const botType = document.getElementById("bot");
+        const element = document.getElementById('botStatusID');
+        const bot = botType.options[botType.selectedIndex].value;
+        console.log('PAIR TYPE: ', pair)
+        const exchange = exchangeType.options[exchangeType.selectedIndex].value;
+
+        if (exchange == 'null') {
+          // cobinDiv.style.display = "none";
+          // marketMakingDiv.style.display = "none";
+          botButtonsDiv.style.display = "none";
+          univCredDiv.style.display = "none";
+          volumeBotDiv.style.display = "none";
+          SDBotDiv.style.display = "none";
+        }
+
+        if (bot === 'Volume') {
+          volHeaderDiv.style.display = "block";
+          botButtonsDiv.style.display = "block";
+          univCredDiv.style.display = "block";
+          volumeBotDiv.style.display = "block";
+          SDBotDiv.style.display = 'none';
+
+        } else if (bot === 'SD') {
+          volHeaderDiv.style.display = "none";
+          univCredDiv.style.display = "block";
+          keyDiv.style.display = "none";
+          secretDiv.style.display = "none";
+          volumeBotDiv.style.display = "none";
+          SDBotDiv.style.display = 'block';
+          botButtonsDiv.style.display = "block";
+        } else {
+          botButtonsDiv.style.display = "none";
+          univCredDiv.style.display = "block";
+          volumeBotDiv.style.display = "none";
+          SDBotDiv.style.display = "none";
+        }
+      }
+
+      let activeBots = [];
+
+      /**
+       * START BOT BUTTTON
+      */
+      $("#volumeOn").click(function () {
+        let botType = document.getElementById("bot");
+        let bot = botType.options[botType.selectedIndex].value;
+        console.log(bot);
+        switch (bot) {
+          case 'Volume': {
+            startVolumeBot();
+            break;
+          }
+          case 'SD': {
+            startSDBot();
+            break;
+          }
+        }
+      });
+
+      /**
+       * CHECK STATUS BUTTTON
+      */
+      $("#checkBotStatusBtn").click(() => {
+        console.log($("#botStatusID")[0].value);
+        (async () => {
+          let data = {
+            id: $("#botStatusID")[0].value
+          }
+          console.log(data.id);
+          fetch('/v1/status', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then(res => { return res.json() }).then(response => {
+            console.log('Success:', JSON.stringify(response));
+            alert('BOT with ID: ' + data.id + ' is: ' + response.status);
+          }).catch(err => {
+            alert('ERROR: ' + err);
+          })
+        })();
+      });
+
+      /**
+       * REFRESH BUTTTON
+      */
+      $("#botRefresh").click(() => {
+        let noBots = null;
+        (async () => {
+          fetch('/v1/getActiveBots', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+          }).then(res => { return res.json() }).then(response => {
+            console.log('Success:', (response));
+            if (response.msg != null) {
+              noBots = response.msg;
+            }
+            activeBots = response.bots;
+            listActiveBots();
+          }).catch(err => {
+            if (noBots != null) {
+              alert(noBots);
+            } else {
+              if (err == 'TypeError: NetworkError when attempting to fetch resource.' || err == 'TypeError: Failed to fetch')
+                alert('Server Inactive/Unreachable');
+              else alert(noBots + '/n An Error Occured: ' + err);
+            }
+          });
+        })();
+      });
+
+      /**
+       * STOP BOT BUTTTON
+      */
+      $("#volumeOff").click(function () {
+        let data = {
+          id: $('#botStopID')[0].value
+        };
+        console.log($('#botStopID')[0].value);
+        (async () => {
+          fetch('/v1/stop', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then(res => { return res.json() }).then(response => {
+            console.log('Success:', JSON.stringify(response));
+            document.getElementById('botStopID').value = '';
+            alert('BOT with ID: ' + response.id + ' has been stopped successfully!');
+          }).catch(err => {
+            alert('An Error Occured: ' + err);
+          });
+        })();
+      });
+      let ul = document.getElementById("dynamic-list");
+
+      function addActiveBot(ex, bot, botId) {
+        var node = document.createElement("li");
+        var link = document.createElement("a");
+        var textnode = document.createTextNode(bot + ' BOT: ' + botId + '\nat ' + ex);
+        link.appendChild(textnode);
+        node.appendChild(link);
+        ul.appendChild(node);
+      }
+
+      function listActiveBots() {
+        ul.innerHTML = "";
+        activeBots.forEach(data => {
+          addActiveBot(data.exchange, data.bot, data.id);
+        });
+      }
+
+      function startVolumeBot() {
+        let exchangeType = document.getElementById("exchange");
+        let botType = document.getElementById("bot");
+        const pairType = document.getElementById("pair");
+        const pair = pairType.options[pairType.selectedIndex].value;
+        let bot = botType.options[botType.selectedIndex].value;
+        let exchange = exchangeType.options[exchangeType.selectedIndex].value;
+        let data = null;
+        data = {
+          exchange,
+          bot: bot,
+          apiKey1: $('#key1')[0].value,
+          secret1: $('#secret1')[0].value,
+          apiKey2: $('#key2')[0].value,
+          secret2: $('#secret2')[0].value,
+          pair: pair.toUpperCase(),
+          params: {
+            volumeUpperLimit: $('#volUpperLimit')[0].value,
+            volumeLowerLimit: $('#volLowerLimit')[0].value,
+            spreadUpperLimit: $('#spreadHigh')[0].value,
+            spreadLowerLimit: $('#spreadLow')[0].value,
+            tradeCount: $('#tradeCount')[0].value,
+            tradeNotHappenBefore: $('#tradesNotHappenedBefore')[0].value,
+          }
+        };
+
+        (async () => {
+          let botID = null;
+          await fetch('/v1/start', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then(res => { return res.json() }).then(response => {
+            console.log('Success:', JSON.stringify(response));
+            botID = response.ID;
+            addActiveBot(data.exchange, data.bot, botID);
+          })
+            .catch(error => console.error('Error:', error));
+        })();
+      }
+
+      function startSDBot() {
+        const exchangeType = document.getElementById("exchange");
+        const exchange = exchangeType.options[exchangeType.selectedIndex].value;
+        const botType = document.getElementById("bot");
+        const bot = botType.options[botType.selectedIndex].value;
+        let data = {
+          exchange,
+          bot,
+          apiKey1: $('#key1')[0].value,
+          secret1: $('#secret1')[0].value,
+          pair: $('#pair')[0].value,
+          params: {
+            fixedVolume: $('#fixedvolumeSD')[0].value,
+            hoursFor1000Trades: $('#hours')[0].value
+            // totalNumberOfLastTrades: $('#lasttrades')[0].value
+          }
+        };
+        (async () => {
+          let botID = null;
+          await fetch('/v1/start', {
+            method: 'post',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+          }).then(res => { return res.json() }).then(response => {
+            console.log('Success:', JSON.stringify(response));
+            botID = response.ID;
+            addActiveBot(data.exchange, data.bot, botID);
+          }).catch(error => console.error('Error:', error));
+        })();
+      }
+    </script>
+</body>
+
+</html>

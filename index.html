@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container"> <br>
+        <h2>Crypto Bot</h2><br>
+        <h4>Universal Credentials</h4>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">API Key 1</span></div><input
+                class="form-control" id="key1" type="text" value="667021" placeholder="API KEY 1" name="key1"
+                aria-label="Key 1" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Secret 1</span></div><input
+                class="form-control" id="secret1" type="text" value="jt3b8CzS8eq8Kzyq0lJT7HjZ/NQmpSqNjMQJ26GOd3Jbffd6mNP/nPo+s5b38W4RACj62kLpLw5691v6bTrMAg=="
+                placeholder="Secret 1" name="secret1" aria-label="Secret 1" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">API Key 2</span></div><input
+                class="form-control" id="key2" type="text" value="666752" placeholder="API KEY 2" name="key2"
+                aria-label="Key 2" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Secret 2</span></div><input
+                class="form-control" id="secret2" type="text" value="zA+7IfsN0+JczqrG+qN54mIG8FZ7MHDXcb1yWuqzCJUUQ9NmegNiZWY5HC2w0eKXGZ6kq6DRrSl1ZH2snK1X1A=="
+                placeholder="Secret 2" name="secret2" aria-label="Secret 2" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Trade Pair</span></div><input
+                class="form-control" id="pair" type="text" value="LALA/ETH" placeholder="Trading Pair (eg. LALA/ETH)"
+                name="pair" aria-label="Trade Pair" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Average
+                    Factor</span></div><input class="form-control" id="tradeAvgFactor" type="text" value="0.01"
+                placeholder="Trade Average Factor" name="tradeAvgFactor" aria-label="Avg Factor" aria-describedby="basic-addon1">
+        </div><br>
+        <h4>Volume Bot Credentials</h4>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Trade Count</span></div><input
+                class="form-control" id="tradeCount" type="text" value="2" placeholder="Trade Count" name="tradeCount"
+                aria-label="Trade Count" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Amount
+                    Random Offset</span></div>
+            <input class="form-control" id="amountOffset" type="text" value="20" placeholder="Amount Random Offset..."
+                name="amountOffset" aria-label="Trade Size" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Trades Not
+                    Happened Before (in minutes)</span></div><input class="form-control" id="tradesNotHappenedBefore"
+                type="text" value="0" placeholder="Trades Not Happened Before Time..." name="tradesNotHappenedBefore"
+                aria-label="Trade Size Offset" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Spread Upper
+                    Limit (%)</span></div><input class="form-control" id="spreadHigh" type="text" placeholder="Spread Upper Limit"
+                name="spreadHigh" aria-label="Spread high" aria-describedby="basic-addon1">
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">Spread Lower
+                    Limit (%)</span></div><input class="form-control" id="spreadLow" type="text" placeholder="Spread Lower Limit"
+                name="spreadLow" aria-label="Spread Low" aria-describedby="basic-addon1">
+        </div>
+        <button class="btn btn-success" id="volumeOn">Start BOT</button><br><br>
+        <div class="input-group-prepend"><span class="input-group-text" id="inputGroup-sizing-default">BOT ID (to Stop)</span><input
+                class="form-control" id="botStopID" type="text" placeholder="BOT ID to be tuned off..." name="botStopID"
+                aria-label="Spread Low" aria-describedby="basic-addon1">
+            <button class="btn btn-danger" id="volumeOff">Stop BOT</button></div><br><br><br>
+
+    </div>
+
+
+    </div>
+    <script>$("#volumeOn").click(function () {
+            let data = {
+                apiKey1: $('#key1')[0].value,
+                secretKey1: $('#secret1')[0].value,
+                apiKey2: $('#key2')[0].value,
+                secretKey2: $('#secret2')[0].value,
+                pair: $('#pair')[0].value,
+                spreadUpperLimit: $('#spreadHigh')[0].value,
+                spreadLowerLimit: $('#spreadLow')[0].value,
+                averageFactor: $('#tradeAvgFactor')[0].value,
+                tradeCount: $('#tradeCount')[0].value,
+                tradeNotHappenBefore: $('#tradesNotHappenedBefore')[0].value,
+                amountRandomOffset: $('#amountOffset')[0].value
+            }
+            console.log(data);
+            // (async () => {
+            //     const rawResponse = await fetch('http://localhost:3000/v1/volume/qryptos/start', {
+            //         method: 'POST',
+            //         headers: {
+            //             'Accept': 'application/json',
+            //             'Content-Type': 'application/json'
+            //             // 'Access-Control-Allow-Origin': '*'
+            //         },
+            //         body: JSON.stringify(data)
+            //     });
+            //     alert('Volume Bot Started with ID : ' + rawResponse.json().id);
+            //     console.log(rawResponse);
+            // })();
+            (async () => {
+                $.ajax({
+                    type: "POST",
+                    url: "http://localhost:3000/v1/volume/qryptos/start",
+                    data: data,
+                    success: function (result) {
+                        alert("BOT started with ID : " + result.id);
+                        console.log(result.id)
+                    },
+                    error: function (result) {
+                        alert('Stopped');
+                    }
+                });
+            })();
+        });
+        $("#volumeOff").click(function () {
+            let data = {
+                id: $('#botStopID')[0].value
+            }
+            console.log(data);
+            (async () => {
+                const rawResp = await fetch('http://localhost:3000/v1/volume/qryptos/stop', {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                alert('Volume Bot Stopped');
+            })();
+        });
+
+    </script>
+</body>
+
+</html>
